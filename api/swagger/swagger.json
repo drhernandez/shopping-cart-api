@@ -1,0 +1,256 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Service Selector"
+  },
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "definitions": {
+    "cart": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "buyer": {
+          "$ref": "#/definitions/buyer"
+        },
+        "cart_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cart_item"
+          }
+        }
+      }
+    },
+    "buyer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        }
+      }
+    },
+    "cart_item": {
+      "type": "object",
+      "properties": {
+        "variant_id": {
+          "type": "integer"
+        },
+        "quantity": {
+          "type": "integer"
+        }
+      }
+    },
+    "error_response": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "causes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/carts": {
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Create cart",
+        "parameters": [
+          {
+            "name": "cart",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/cart"
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Cart created",
+            "schema": {
+              "$ref": "#/definitions/cart"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          }
+        }
+      }
+    },
+    "/carts/{cart_id}": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Get cart by id",
+        "parameters": [
+          {
+            "name": "cart_id",
+            "in": "path",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart info",
+            "schema": {
+              "$ref": "#/definitions/cart"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Update cart",
+        "parameters": [
+          {
+            "name": "cart_id",
+            "in": "path",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "cart",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/cart"
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart updated",
+            "schema": {
+              "$ref": "#/definitions/cart"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Delete cart by id",
+        "parameters": [
+          {
+            "name": "cart_id",
+            "in": "path",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Cart deleted"
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "shoping-cart-api",
+  "version": "1.0.0",
+  "description": "Cart and purchase management API",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install",
+    "start": "node index.js",
+    "dev": "./node_modules/.bin/nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pretest"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drhernandez/shoping-cart-api.git"
+  },
+  "author": "Diego Hernández",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drhernandez/shoping-cart-api/issues"
+  },
+  "homepage": "https://github.com/drhernandez/shoping-cart-api#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "swagger-ui-express": "^4.0.7",
+    "winston": "^3.2.1"
+  },
+  "engines": {
+    "node": "12.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "husky": "^3.0.5",
+    "nodemon": "^1.19.1"
+  }
+}
