@@ -9,7 +9,17 @@ const logger = require('./api/utils/loggerFactory').createLogger(__filename);
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
-// const db = require('./api/db');
+
+// const Buyer = require('./api/db/models').Buyer;
+// const CartItem = require('./api/db/models').CartItem;
+// const Cart = require('./api/db/models').Cart;
+// Buyer.create({ name: 'Diego' }).then(buyer => {
+//   Buyer.findAll().then(buyers => {
+//     buyers.forEach(buyer => {
+//       console.log('buyer: ' + JSON.stringify(buyer.dataValues));
+//     });
+//   })
+// })
 
 //Routers
 const cartsRouter = require('./api/routers/cartsRouter');
