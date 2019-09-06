@@ -10,7 +10,39 @@
     "https"
   ],
   "definitions": {
-    "cart": {
+    "userRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "userResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "cartRequest": {
       "type": "object",
       "properties": {
         "id": {
@@ -19,9 +51,31 @@
         "status": {
           "type": "string"
         },
-        "date_created": {
-          "type": "string",
-          "format": "date-time"
+        "buyer": {
+          "type": "integer"
+        },
+        "cart_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cart_item"
+          }
+        }
+      }
+    },
+    "cartResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "date"
+        },
+        "updated_at": {
+          "type": "date"
         },
         "buyer": {
           "$ref": "#/definitions/buyer"
@@ -72,6 +126,50 @@
     }
   },
   "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create user",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userRequest"
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "User created",
+            "schema": {
+              "$ref": "#/definitions/userResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "schema": {
+              "$ref": "#/definitions/error_response"
+            }
+          }
+        }
+      }
+    },
     "/carts": {
       "post": {
         "tags": [
@@ -84,7 +182,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/cart"
+              "$ref": "#/definitions/cartRequest"
             }
           }
         ],
@@ -98,7 +196,7 @@
           "201": {
             "description": "Cart created",
             "schema": {
-              "$ref": "#/definitions/cart"
+              "$ref": "#/definitions/cartResponse"
             }
           },
           "400": {
@@ -140,7 +238,7 @@
           "200": {
             "description": "Cart info",
             "schema": {
-              "$ref": "#/definitions/cart"
+              "$ref": "#/definitions/cartResponse"
             }
           },
           "400": {
@@ -180,7 +278,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/cart"
+              "$ref": "#/definitions/cartRequest"
             }
           }
         ],
@@ -194,7 +292,7 @@
           "200": {
             "description": "Cart updated",
             "schema": {
-              "$ref": "#/definitions/cart"
+              "$ref": "#/definitions/cartResponse"
             }
           },
           "400": {

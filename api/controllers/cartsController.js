@@ -1,3 +1,5 @@
+const { cartsService } = require('../services');
+
 class CartsController {
   
   getCartById(req, res) {
@@ -5,6 +7,10 @@ class CartsController {
   }
 
   createCart(req, res) {
+
+    const cart = req.body;
+    //validateCart()
+    cartsService.createCart(cart);
     res.status(201).send('created');
   }
 
