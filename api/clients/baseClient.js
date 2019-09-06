@@ -1,10 +1,11 @@
 const axios = require('axios');
 const logger = require('../utils/loggerFactory')(__filename);
+const ErrorResponse = require('../models/errorResponse');
 
 export default class BaseClient {
-  constructor() {
+  constructor(baseURL) {
     this.restClient = axios.create({
-      baseURL: 'https://7d2c8bd2c922f1be3bc7806e3f89a68a:af3acc3b4f168d2740bd7c1dc3ea1b70@thirdlove-uat2.myshopify.com/admin',
+      baseURL: baseURL,
       timeout: 1000
     });
   }
@@ -64,13 +65,6 @@ function _parseErrorResponse(error) {
   else {
     logger.error(`[MESSAGE: Unexpected error] [ERROR: ${error.message}]`);
     return new ErrorResponse(500, error.message);
-  }
-}
-
-class ErrorResponse {
-  constructor(status, message) {
-    this.status = status;
-    this.message = message;
   }
 }
 
