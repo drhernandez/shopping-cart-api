@@ -6,12 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     quantity: { type: DataTypes.INTEGER, allowNull: false }
   }, {});
   
-  CartItem.associate = function () {
+  CartItem.associate = function (models) {
     // associations can be defined here
+    CartItem.belongsTo(models.Cart);
   };
 
-  CartItem.sync().then(() => {
-    console.log('Table cartItem created');
-  });
   return CartItem;
 };
