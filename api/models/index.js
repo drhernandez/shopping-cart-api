@@ -1,7 +1,7 @@
-const SuccessfulResponse = require('./successfulResponse');
-const ErrorResponse = require('./errorResponse');
+const Response = require('./response');
+const ApiError = require('./apiError');
 
 module.exports = {
-  SuccessfulResponse,
-  ErrorResponse
+  Response,
+  ApiError
 }

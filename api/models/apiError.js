@@ -1,4 +1,4 @@
-class ErrorResponse {
+class ApiError {
   constructor(status, message, causes) {
     this.status = status;
     this.message = message;
@@ -6,4 +6,4 @@ class ErrorResponse {
   }
 }
 
-module.exports = ErrorResponse;
+module.exports = ApiError;

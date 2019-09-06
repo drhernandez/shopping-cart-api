@@ -1,10 +1,11 @@
+const to = require('await-to-js').default;
 const logger = require('../utils/loggerFactory').createLogger(__filename);
-const { SuccessfulResponse, ErrorResponse } = require('../models');
-const { usersService } = require('../services');
+const { Response, ApiError } = require('../models');
+const { UsersService } = require('../services');
 
 class UsersController {
 
-  createUser(req, res) {
+  async createUser(req, res) {
     
     let causes = [];
     let user = {};
@@ -24,24 +25,23 @@ class UsersController {
     }
 
     if (causes.length > 0) {
-        response = new ErrorResponse(400, 'invalid body', causes);
-
+      response = new Response(400, new ApiError(400, 'invalid body', causes));
     } else {
-
       //create user
-      try {
-        
-        user.name = req.body.name;
-        user.lastName = req.body.last_name;
-        user.email = req.body.email;
-        user.password = req.body.password;
+      user.name = req.body.name;
+      user.lastName = req.body.last_name;
+      user.email = req.body.email;
+      user.password = req.body.password;
 
-        const newUser = usersService.createUser(user);
-        response = new SuccessfulResponse(201, newUser);
-        
-      } catch (err) {
-        logger.error(`[message: error creating user] [error: ${err}]`)
-        response = new ErrorResponse(500, 'internal error');
+      const [err, newUser] = await to(UsersService.createUser(user));
+      if (err && err instanceof ApiError) {
+        logger.error(`[message: Error creating user] [error: ${JSON.stringify(err)}]`);
+        response = new Response(err.status, err);
+      } else if (err) {
+        logger.error(`[message: Error creating user] [error: ${JSON.stringify(err)}]`);
+        response = new Response(500, new ApiError(500, 'Internal error', null));
+      } else {
+        response = new Response(201, newUser);
       }
     }
 
