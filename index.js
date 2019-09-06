@@ -24,7 +24,6 @@ app.listen(PORT, () => {
 
 
 function initializeExpress() {
-  //pasar a un routers/index.js como está la db
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
@@ -37,12 +36,12 @@ async function initializeModels() {
     await db.Cart.sync();
     await db.CartItem.sync();
 
-    // const user = await db.User.findOne({ where: { name: 'Barbi' } });
+    const user = await db.User.findOne({ where: { name: 'Barbi' } });
     // const buyer = await db.User.create({name: 'Barbi', lastName: 'Blasco', userName: 'barblas'});
     // const cart = await db.Cart.create({status: 'open'});
     // cart.setBuyer(buyer);
     // const cart = await Cart.findOne({where: { user: user}});
-    // console.log(await user.getCarts());
+    console.log(await user.getCarts());
 
   } catch(err) {
     logger.error(`[message: error initializing models] [error: ${err}]`);
