@@ -9,10 +9,6 @@ class UsersRouter {
     this.addRoutes();
   }
 
-  getRouter() {
-    return this.router;
-  }
-
   addRoutes() {
     this.router.post('/', getRequestLoggerMiddleware(logger), usersController.createUser);
   }
