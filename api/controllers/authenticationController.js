@@ -30,16 +30,11 @@ class AuthenticationController {
         logger.error(`[message: Error authenticating user] [error: ${JSON.stringify(err)}]`);
         response = new Response(500, new InternalError());
       } else {
-        response = new Response(200, token);
+        response = new Response(200, { 'access_token': token });
       }
     }
 
     res.status(response.status).json(response.body);
-  }
-
-  async logout(req, res) {
-    //TODO
-    res.status(204).end();
   }
 }
 

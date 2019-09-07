@@ -11,7 +11,6 @@ class AuthenticationRouter {
 
   addRoutes() {
     this.router.post('/login', getRequestLoggerMiddleware(logger), authenticationController.login);
-    this.router.post('/logout', getRequestLoggerMiddleware(logger), authenticationController.logout);
   }
 }
 
