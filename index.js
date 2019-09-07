@@ -9,7 +9,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./api/swagger/swagger.json');
 const logger = require('./api/utils/loggerFactory').createLogger(__filename);
 const db = require('./api/db/models');
-const { usersRouter, cartsRouter } = require('./api/routers');
+const { usersRouter, cartsRouter, authenticationRouter } = require('./api/routers');
 const PORT = process.env.PORT || 9000;
 
 
@@ -27,6 +27,7 @@ function initializeExpress() {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
+  app.use('/authentication', authenticationRouter);
   app.use('/users', usersRouter);
   app.use('/carts', cartsRouter);
 }
