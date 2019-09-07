@@ -1,9 +1,7 @@
-const CartsService = require('./cartsService');
 const UsersService = require('./usersService');
-
-const cartsService = new CartsService();
+const SecurityService = require('./securityService');
 
 module.exports = {
   UsersService,
-  cartsService
+  SecurityService
 }
