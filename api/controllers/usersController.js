@@ -1,6 +1,7 @@
 const to = require('await-to-js').default;
 const logger = require('../utils/loggerFactory').createLogger(__filename);
-const { Response, ApiError } = require('../models');
+const { Response } = require('../models');
+const { ApiError, InternalError } = require('../errors');
 const { UsersService } = require('../services');
 
 class UsersController {
@@ -39,7 +40,7 @@ class UsersController {
         response = new Response(err.status, err);
       } else if (err) {
         logger.error(`[message: Error creating user] [error: ${JSON.stringify(err)}]`);
-        response = new Response(500, new ApiError(500, 'Internal error', null));
+        response = new Response(500, new InternalError());
       } else {
         response = new Response(201, newUser);
       }
