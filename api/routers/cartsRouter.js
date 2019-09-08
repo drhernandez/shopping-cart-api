@@ -9,10 +9,6 @@ class CartsRouter {
     this.addRoutes();
   }
 
-  getRouter() {
-    return this.router;
-  }
-
   addRoutes() {
     this.router.get('/:cart_id', getRequestLoggerMiddleware(logger), cartsController.getCartById);
     this.router.put('/:cart_id', getRequestLoggerMiddleware(logger), cartsController.updateCart);

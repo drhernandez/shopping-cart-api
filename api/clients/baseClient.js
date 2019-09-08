@@ -1,8 +1,9 @@
 const axios = require('axios');
-const logger = require('../utils/loggerFactory')(__filename);
-const ErrorResponse = require('../models/errorResponse');
+const logger = require('../utils/loggerFactory').createLogger(__filename);
+const to = require('await-to-js').default;
+const { ApiError, InternalError } = require('../errors');
 
-export default class BaseClient {
+class BaseClient {
   constructor(baseURL) {
     this.restClient = axios.create({
       baseURL: baseURL,
@@ -28,16 +29,11 @@ export default class BaseClient {
 }
 
 async function _execute(restClient, method, url, headers = {}, body) {
-  try {
-    return await restClient.request({
-      method: method,
-      url: url,
-      headers: headers,
-      data: body
-    });
-  } catch (error) {
-    return _parseErrorResponse(error);
+  const [err, response] = await to(restClient.request({ method: method, url: url, headers: headers, data: body }));
+  if (err) {
+    return _parseErrorResponse(err);
   }
+  return response;
 }
 
 function _parseErrorResponse(error) {
@@ -50,21 +46,23 @@ function _parseErrorResponse(error) {
       'status': error.response.status,
       'data': error.response.data
     };
-    logger.error(`[MESSAGE: Invalid response executing request] [REQUEST: ${JSON.stringify(request)}] [RESPONSE: ${JSON.stringify(response)}]`);
-    const data = JSON.parse(error.response.data);
-    return new ErrorResponse(data.status = 500, data.message);
+    logger.error(`[message: Invalid response executing request] [request: ${JSON.stringify(request)}] [response: ${JSON.stringify(response)}]`);
+    const data = JSON.stringify(response.data);
+    return new ApiError(response.status, data);
   }
   else if (error.request) {
     const request = {
       'url': error.config.url,
       'method': error.config.method
     };
-    logger.error(`[MESSAGE: Error executing request] [REQUEST: ${JSON.stringify(request)}] [ERROR: ${error.message}]`);
-    return new ErrorResponse(500, error.message);
+    logger.error(`[message: Error executing request] [request: ${JSON.stringify(request)}] [error: ${error.message}]`);
+    return new InternalError(error.message);
   }
   else {
-    logger.error(`[MESSAGE: Unexpected error] [ERROR: ${error.message}]`);
-    return new ErrorResponse(500, error.message);
+    logger.error(`[message: Unexpected error] [error: ${error.message}]`);
+    return new InternalError(error.message);
   }
 }
+
+module.exports = BaseClient;
 

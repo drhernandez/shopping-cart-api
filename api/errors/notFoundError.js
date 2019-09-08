@@ -1,8 +1,8 @@
 const ApiError = require('./apiError');
 
 class NotFoundError extends ApiError {
-  constructor(message) {
-    super(404, message || 'Not found', []);
+  constructor(message, causes) {
+    super(404, message || 'Not found', causes || []);
   }
 }
 

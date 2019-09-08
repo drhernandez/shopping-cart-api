@@ -65,14 +65,8 @@
     "cartRequest": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "status": {
+        "buyer_email": {
           "type": "string"
-        },
-        "buyer": {
-          "type": "integer"
         },
         "cart_items": {
           "type": "array",
@@ -110,11 +104,7 @@
     },
     "buyer": {
       "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        }
-      }
+      "$ref": "#/definitions/userResponse"
     },
     "cart_item": {
       "type": "object",
