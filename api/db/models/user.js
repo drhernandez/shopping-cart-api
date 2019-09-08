@@ -14,12 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
 
-  User.associate = function (models) {
+  User.associate = function () {
     // associations can be defined here
-    User.hasMany(models.Cart, {
-      foreignKey: {
-        name: 'buyer_id'
-      }});
+    // User.hasMany(models.Cart);
   };
   
   return User;

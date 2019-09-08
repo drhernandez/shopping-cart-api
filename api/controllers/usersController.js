@@ -26,6 +26,7 @@ class UsersController {
     }
 
     if (causes.length > 0) {
+      logger.error(`[message: Error trying to create user] [error: invalid body] [causes: ${JSON.stringify(causes)}]`)
       response = new Response(400, new ApiError(400, 'invalid body', causes));
     } else {
       //create user
@@ -39,7 +40,7 @@ class UsersController {
         logger.error(`[message: Error creating user] [error: ${JSON.stringify(err)}]`);
         response = new Response(err.status, err);
       } else if (err) {
-        logger.error(`[message: Error creating user] [error: ${JSON.stringify(err)}]`);
+        logger.error(`[message: Error creating user] [error: ${err.message}]`);
         response = new Response(500, new InternalError());
       } else {
         response = new Response(201, newUser);

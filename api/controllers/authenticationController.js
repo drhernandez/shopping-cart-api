@@ -19,6 +19,7 @@ class AuthenticationController {
     }
     
     if (causes.length > 0) {
+      logger.error(`[message: Error trying to authenticate user] [error: invalid body] [causes: ${JSON.stringify(causes)}]`)
       response = new Response(400, new BadRequestError('invalid body', causes));
     } else {
       
@@ -27,7 +28,7 @@ class AuthenticationController {
         logger.error(`[message: Error authenticating user] [error: ${JSON.stringify(err)}]`);
         response = new Response(err.status, err);
       } else if (err) {
-        logger.error(`[message: Error authenticating user] [error: ${JSON.stringify(err)}]`);
+        logger.error(`[message: Error authenticating user] [error: ${err.message}]`);
         response = new Response(500, new InternalError());
       } else {
         response = new Response(200, { 'access_token': token });
