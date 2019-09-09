@@ -92,7 +92,7 @@ class CartsService {
     try {
       const cartItems = await cart.getCartItems({ transaction: tx });
       if (body.status) {
-        await cart.update({status: body.status});
+        await cart.update({ status: body.status }, { transaction: tx });
       }
       await Promise.all(cartItems.map(cartItem => cartItem.destroy({ transaction: tx })));
       await Promise.all(body.cart_items.map(cartItem => cart.createCartItem(cartItem, { transaction: tx })));
