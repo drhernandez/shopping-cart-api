@@ -1,15 +1,20 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  
-  const Cart = sequelize.define('Cart', {
-    status: { type: DataTypes.STRING, allowNull: false }
-  }, {});
-  
-  Cart.associate = function(models) {
-    // associations can be defined here
-    Cart.hasMany(models.CartItem);
-    Cart.belongsTo(models.User, { as: 'buyer' });
-  };
+const sequelize = require('sequelize');
 
-  return Cart;
-};
+class Cart extends sequelize.Model {
+
+  static init(sequelize, DataTypes) {
+    return super.init(
+      {
+        status: { type: DataTypes.STRING, allowNull: false }
+      },
+      { sequelize }
+    );
+  }
+
+  static associate(models) {
+    this.hasMany(models.CartItem, { onDelete: 'cascade', onUpdate: 'cascade' });
+    this.belongsTo(models.User, { as: 'buyer' });
+  }
+}
+
+module.exports = Cart;

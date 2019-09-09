@@ -86,13 +86,29 @@
           "type": "string"
         },
         "created_at": {
-          "type": "date"
+          "type": "string",
+          "format": "date-time"
         },
         "updated_at": {
-          "type": "date"
+          "type": "string",
+          "format": "date-time"
         },
         "buyer": {
           "$ref": "#/definitions/buyer"
+        },
+        "cart_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cart_item"
+          }
+        }
+      }
+    },
+    "cartRequestUpdate": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
         },
         "cart_items": {
           "type": "array",
@@ -301,12 +317,6 @@
               "$ref": "#/definitions/cartResponse"
             }
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/error_response"
-            }
-          },
           "404": {
             "description": "Not found",
             "schema": {
@@ -334,11 +344,11 @@
             "type": "number"
           },
           {
-            "name": "cart",
+            "name": "cart_items",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/cartRequest"
+              "$ref": "#/definitions/cartRequestUpdate"
             }
           }
         ],
@@ -388,12 +398,6 @@
         "responses": {
           "204": {
             "description": "Cart deleted"
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/error_response"
-            }
           },
           "404": {
             "description": "Not found",
