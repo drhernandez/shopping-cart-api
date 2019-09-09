@@ -8,7 +8,15 @@ class CartItem extends sequelize.Model {
         variant_id: { type: DataTypes.BIGINT, allowNull: false },
         quantity: { type: DataTypes.INTEGER, allowNull: false }
       },
-      { sequelize }
+      {
+        indexes: [
+          {
+            unique: true,
+            fields: ['variant_id', 'cart_id']
+          }
+        ],
+        sequelize 
+      }
     );
   }
 
