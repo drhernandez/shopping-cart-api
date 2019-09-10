@@ -10,37 +10,39 @@ const { UnauthorizedError } = require('../errors');
  * @param {Response} res 
  * @param {Callback} next 
  */
-async function validateAuthentication(req, res, next) {
-  
-  const authenticationHeader = req.headers.authorization;
-  
-  //get header
-  if (!authenticationHeader) {
-    logger.info('[message: Unauthorized error] [error: missing authorization header]');
-    res.status(401).json(new UnauthorizedError());
-    return;
-  } 
-  
-  //get token from header
-  const splitedHeader = authenticationHeader.split(' ');
-  if (splitedHeader.length !== 2) {
-    logger.info('[message: Unauthorized error] [error: invalid header]');
-    res.status(401).json(new UnauthorizedError());
-    return;
-  }
+function validateAuthentication() {
 
-  //validate token
-  let userInfo;
-  const token = splitedHeader[1].trim();
-  try {
-    userInfo = SecurityService.verifyToken(token);
-    req.body.user = userInfo;
-  } catch (err) {
-    res.status(err.status).json(err);
-    return;
-  }
-  
-  next();
+  return (req, res, next) => {
+    const authenticationHeader = req.headers.authorization;
+
+    //get header
+    if (!authenticationHeader) {
+      logger.info('[message: Unauthorized error] [error: missing authorization header]');
+      res.status(401).json(new UnauthorizedError());
+      return;
+    }
+
+    //get token from header
+    const splitedHeader = authenticationHeader.split(' ');
+    if (splitedHeader.length !== 2) {
+      logger.info('[message: Unauthorized error] [error: invalid header]');
+      res.status(401).json(new UnauthorizedError());
+      return;
+    }
+
+    //validate token
+    let userInfo;
+    const token = splitedHeader[1].trim();
+    try {
+      userInfo = SecurityService.verifyToken(token);
+      req.body.user = userInfo;
+    } catch (err) {
+      res.status(err.status).json(err);
+      return;
+    }
+
+    next();
+  };
 }
 
 function getRequestLoggerMiddleware(logger, verbose = true) {

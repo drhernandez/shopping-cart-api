@@ -11,7 +11,7 @@ class CheckoutRouter {
   }
 
   addRoutes() {
-    this.router.post('/', getRequestLoggerMiddleware(logger), validateAuthentication, checkoutController.checkout);
+    this.router.post('/', getRequestLoggerMiddleware(logger), validateAuthentication(), checkoutController.checkout);
   }
 }
 
