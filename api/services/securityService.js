@@ -50,8 +50,7 @@ class SecurityService {
     } catch(err) {
       logger.error(`[message: Error trying to verify token] [error: ${err}]`);
       const causes = [];
-      if (err.name === 'JsonWebTokenError') causes.push ('invalid access_token');
-      if (err.name === 'TokenExpiredError') causes.push ('access_token expired');
+      causes.push(err.name === 'TokenExpiredError' ? 'access_token expired' : 'invalid access_token');
       throw new UnauthorizedError('Unauthorized', causes);
     }
   }
