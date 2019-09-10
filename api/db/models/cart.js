@@ -12,7 +12,8 @@ class Cart extends sequelize.Model {
   }
 
   static associate(models) {
-    this.hasMany(models.CartItem, { onDelete: 'cascade', onUpdate: 'cascade' });
+    this.hasMany(models.CartItem, { as: 'cartItems', onDelete: 'cascade', onUpdate: 'cascade' });
+    this.belongsTo(models.Order);
     this.belongsTo(models.User, { as: 'buyer' });
   }
 }
