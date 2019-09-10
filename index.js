@@ -14,10 +14,12 @@ const PORT = process.env.PORT || 9000;
 
 
 initializeExpress();
-initializeModels();
-
-app.listen(PORT, () => {
-  logger.info(`Server listening on port ${PORT}`);
+initializeModels().then(() => {
+  app.listen(PORT, () => {
+    logger.info(`Server listening on port ${PORT}`);
+  });
+}).catch((err) => {
+  logger.error(`[message: error initializing models] [error: ${err}]`);
 });
 
 
@@ -34,14 +36,8 @@ function initializeExpress() {
 }
 
 async function initializeModels() {
-  try {
-
-    await db.User.sync();
-    await db.Order.sync();
-    await db.Cart.sync();
-    await db.CartItem.sync();
-
-  } catch(err) {
-    logger.error(`[message: error initializing models] [error: ${err}]`);
-  }
+  await db.User.sync();
+  await db.Order.sync();
+  await db.Cart.sync();
+  await db.CartItem.sync();
 }
