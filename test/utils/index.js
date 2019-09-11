@@ -29,6 +29,7 @@ const createTestCart = async () => {
   const user = await createTestUser();
   const cart = await db.Cart.create(testCart);
   await cart.setBuyer(user);
+  await cart.createCartItem(testCartItem);
   return cart;
 }
 
@@ -66,6 +67,11 @@ testusers.set(testUser2.name, testUser2);
 const testCart = { 
   id: 1000000, 
   status: 'created' 
+}
+
+const testCartItem = {
+  variant_id: 987654321,
+  quantity: 10
 }
 
 const testCartItemNoInventory = {

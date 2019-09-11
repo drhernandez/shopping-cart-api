@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 
 {
     "variant": {
-        "id": 134567890,
+        "id": 123456789,
         "product_id": 512458293310,
         "title": "naked-3 / 30F(DDD)",
         "price": "68.00",

@@ -206,7 +206,7 @@ describe('Carts', () => {
           })
           .end((err, res) => {
             res.should.have.status(404);
-            res.body.should.have.property('causes').eql(['Could not get variants', 'Variant id 1 not found'])
+            res.body.should.have.property('causes').eql(['Could not get variants', 'Variant 1 not found'])
             done();
           })
       }).catch((err) => {

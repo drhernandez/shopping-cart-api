@@ -115,24 +115,45 @@ describe('Checkout', () => {
       })
     });
 
-    // it('should fail with bad request if there is not inventory', (done) => {
-    //   Promise.all([
-    //     utils.createTestCartWithNoInventory()
-    //   ]).then(() => {
-    //     chai.request(app)
-    //       .post('/checkout')
-    //       .set('authorization', 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdCIsImxhc3ROYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTU2ODE2NjM2MSwiZXhwIjoxNTY4MzM5MTYxfQ.UbdMjahsyDEsb8TuKf2fCCwQf9Acd1siy8bDwVZzAGOA3m8T4LO0kZEs7lD__H_WMm9Vc8smSDs7jzLgZR61aA')
-    //       .send({
-    //         cart_id: 1000000
-    //       })
-    //       .end((err, res) => {
-    //         res.should.have.status(400);
-    //         res.body.should.have.property('causes').eql(['cart does not belong to access_token user'])
-    //         done();
-    //       })
-    //   }).catch((err) => {
-    //     console.log(err);
-    //   })
-    // });
+    it('should fail with bad request if there is not inventory', (done) => {
+      Promise.all([
+        utils.createTestCartWithNoInventory()
+      ]).then(() => {
+        chai.request(app)
+          .post('/checkout')
+          .set('authorization', 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdCIsImxhc3ROYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTU2ODE2NjM2MSwiZXhwIjoxNTY4MzM5MTYxfQ.UbdMjahsyDEsb8TuKf2fCCwQf9Acd1siy8bDwVZzAGOA3m8T4LO0kZEs7lD__H_WMm9Vc8smSDs7jzLgZR61aA')
+          .send({
+            cart_id: 1000000
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.have.property('causes').eql(['items [123456789] are out of inventory]'])
+            done();
+          })
+      }).catch((err) => {
+        console.log(err);
+      })
+    });
+
+    it('should create an order', (done) => {
+      Promise.all([
+        utils.createTestCart()
+      ]).then(() => {
+        chai.request(app)
+          .post('/checkout')
+          .set('authorization', 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdCIsImxhc3ROYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTU2ODE2NjM2MSwiZXhwIjoxNTY4MzM5MTYxfQ.UbdMjahsyDEsb8TuKf2fCCwQf9Acd1siy8bDwVZzAGOA3m8T4LO0kZEs7lD__H_WMm9Vc8smSDs7jzLgZR61aA')
+          .send({
+            cart_id: 1000000
+          })
+          .end((err, res) => {
+            res.should.have.status(201);
+            res.body.should.have.property('shopifyOrderId').eql('1213164814398');
+            res.body.should.have.property('financialStatus').eql('paid');
+            done();
+          })
+      }).catch((err) => {
+        console.log(err);
+      })
+    });
   });
 })
