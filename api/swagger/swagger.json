@@ -155,6 +155,32 @@
         }
       }
     },
+    "checkoutResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "shopifyOrderId": {
+          "type": "string"
+        },
+        "financialStatus": {
+          "type": "string"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
     "error_response": {
       "type": "object",
       "properties": {
@@ -607,7 +633,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/error_response"
+                  "$ref": "#/definitions/checkoutResponse"
                 }
               }
             }
