@@ -1,68 +1,51 @@
-const axios = require('axios');
+const fetch = require('node-fetch');
 const logger = require('../utils/loggerFactory').createLogger(__filename);
 const to = require('await-to-js').default;
-const { ApiError, InternalError } = require('../errors');
+const { InternalError } = require('../errors');
+
+const defaultOptions = {
+  method: 'GET',
+  headers: {},        // request headers. format is the identical to that accepted by the Headers constructor (see below)
+  body: null,         // request body. can be null, a string, a Buffer, a Blob, or a Node.js Readable stream
+  redirect: 'error',  // set to `manual` to extract redirect headers, `error` to reject redirect
+  signal: null,       // pass an instance of AbortSignal to optionally abort requests
+  timeout: 500,      // req/res timeout in ms, it resets on redirect. 0 to disable (OS limit applies). Signal is recommended instead.
+  compress: false,    // support gzip/deflate content encoding. false to disable
+  size: 0,            // maximum response body size in bytes. 0 to disable
+  agent: null         // http(s).Agent instance or function that returns an instance (see below)
+};
 
 class BaseClient {
-  constructor(baseURL) {
-    this.restClient = axios.create({
-      baseURL: baseURL,
-      timeout: 1500
-    });
+  constructor(options) {
+    this.options = { ...defaultOptions, ...options};
   }
 
   async get(url, headers) {
-    return await _execute(this.restClient, 'get', url, headers);
+    return await _execute(this.options, 'get', url, headers);
   }
 
   async post(url, headers, body) {
-    return await _execute(this.restClient, 'post', url, headers, body);
+    return await _execute(this.options, 'post', url, headers, body);
   }
 
   async put(url, headers, body) {
-    return await _execute(this.restClient, 'put', url, headers, body);
+    return await _execute(this.options, 'put', url, headers, body);
   }
 
   async delete(url, headers) {
-    return await _execute(this.restClient, 'delete', url, headers);
+    return await _execute(this.options, 'delete', url, headers);
   }
 }
 
-async function _execute(restClient, method, url, headers = {}, body) {
-  logger.info(`[message: Executing request] [method: ${method}] [url: ${restClient.defaults.baseURL}${url}] [body: ${body}]`);
-  const [err, response] = await to(restClient.request({ method: method, url: url, headers: headers, data: body }));
+async function _execute(options, method, url, headers = {}, body) {
+  logger.info(`[message: Executing request...] [method: ${method}] [url: ${url}] [headers: ${JSON.stringify(headers)}] [body: ${JSON.stringify(body)}]`);
+  const [err, response] = await to(fetch(url, { ...options, ...{ method: method, headers: headers, body: JSON.stringify(body) } }));
   if (err) {
-    return _parseErrorResponse(err);
+    logger.error(`[message: Unexpected error occurred executing request] [error: ${err}]`);
+    throw new InternalError(err.message);
   }
-  return response;
-}
 
-function _parseErrorResponse(error) {
-  if (error.response) {
-    const request = {
-      'url': error.config.url,
-      'method': error.config.method
-    };
-    const response = {
-      'status': error.response.status,
-      'data': error.response.data
-    };
-    logger.error(`[message: Invalid response executing request] [request: ${JSON.stringify(request)}] [response: ${JSON.stringify(response)}]`);
-    const data = JSON.stringify(response.data);
-    return new ApiError(response.status, data);
-  }
-  else if (error.request) {
-    const request = {
-      'url': error.config.url,
-      'method': error.config.method
-    };
-    logger.error(`[message: Error executing request] [request: ${JSON.stringify(request)}] [error: ${error.message}]`);
-    return new InternalError(error.message);
-  }
-  else {
-    logger.error(`[message: Unexpected error] [error: ${error.message}]`);
-    return new InternalError(error.message);
-  }
+  return response;
 }
 
 module.exports = BaseClient;

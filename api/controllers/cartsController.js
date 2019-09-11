@@ -35,7 +35,7 @@ class CartsController {
     if (!req.body.buyer_email) {
       causes.push('missing buyer email');
     }
-    if (!req.body.cart_items) {
+    if (req.body.cart_items === undefined) {
       causes.push('missing cart_items');
     }
     if (req.body.cart_items && req.body.cart_items.length === 0) {
