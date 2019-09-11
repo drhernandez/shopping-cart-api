@@ -1,4 +1,4 @@
-const logger = require('../../utils/loggerFactory').createLogger('database');
+// const logger = require('../../utils/loggerFactory').createLogger('database');
 module.exports = {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -7,7 +7,7 @@ module.exports = {
   database: process.env.DB_NAME,
   dialect: 'postgres',
   timezone: '-03:00',
-  loggin: logger.info,
+  logging: false,
   pool: {
     max: Number(process.env.DB_POOL_MAX),
     min: Number(process.env.DB_POOL_MIN),

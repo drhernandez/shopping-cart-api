@@ -68,6 +68,14 @@
         },
         "email": {
           "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },
@@ -191,26 +199,42 @@
         "responses": {
           "200": {
             "description": "Logged in",
-            "schema": {
-              "$ref": "#/definitions/loginResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/loginResponse"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "401": {
             "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal error",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           }
         }
@@ -241,20 +265,86 @@
         "responses": {
           "201": {
             "description": "User created",
-            "schema": {
-              "$ref": "#/definitions/userResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/userResponse"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal error",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_email}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user by email",
+        "parameters": [
+          {
+            "name": "user_email",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/userResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           }
         }
@@ -285,20 +375,42 @@
         "responses": {
           "201": {
             "description": "Cart created",
-            "schema": {
-              "$ref": "#/definitions/cartResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/cartResponse"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal error",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           }
         }
@@ -327,20 +439,32 @@
         "responses": {
           "200": {
             "description": "Cart info",
-            "schema": {
-              "$ref": "#/definitions/cartResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/cartResponse"
+                }
+              }
             }
           },
           "404": {
             "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal error",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           }
         }
@@ -377,20 +501,32 @@
         "responses": {
           "200": {
             "description": "Cart updated",
-            "schema": {
-              "$ref": "#/definitions/cartResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/cartResponse"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal error",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           }
         }
@@ -417,14 +553,22 @@
           },
           "404": {
             "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal error",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           }
         }
@@ -460,32 +604,52 @@
         "responses": {
           "201": {
             "description": "Order created",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "401": {
             "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "404": {
             "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal error",
-            "schema": {
-              "$ref": "#/definitions/error_response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/error_response"
+                }
+              }
             }
           }
         }

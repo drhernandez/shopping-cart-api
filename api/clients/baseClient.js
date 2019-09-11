@@ -7,7 +7,7 @@ class BaseClient {
   constructor(baseURL) {
     this.restClient = axios.create({
       baseURL: baseURL,
-      timeout: 1000
+      timeout: 1500
     });
   }
 
@@ -29,6 +29,7 @@ class BaseClient {
 }
 
 async function _execute(restClient, method, url, headers = {}, body) {
+  logger.info(`[message: Executing request] [method: ${method}] [url: ${restClient.defaults.baseURL}${url}] [body: ${body}]`);
   const [err, response] = await to(restClient.request({ method: method, url: url, headers: headers, data: body }));
   if (err) {
     return _parseErrorResponse(err);

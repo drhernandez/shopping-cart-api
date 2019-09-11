@@ -1,0 +1,32 @@
+HTTP/1.1 200 OK
+
+{
+    "variant": {
+        "id": 134567890,
+        "product_id": 512458293310,
+        "title": "naked-3 / 30F(DDD)",
+        "price": "68.00",
+        "sku": "10003352708",
+        "position": 4,
+        "inventory_policy": "deny",
+        "compare_at_price": null,
+        "fulfillment_service": "manual",
+        "inventory_management": "shopify",
+        "option1": "naked-3",
+        "option2": "30F(DDD)",
+        "option3": null,
+        "created_at": "2018-10-03T15:08:12-07:00",
+        "updated_at": "2018-10-31T14:18:29-07:00",
+        "taxable": true,
+        "barcode": "",
+        "grams": 0,
+        "image_id": null,
+        "weight": 0,
+        "weight_unit": "lb",
+        "inventory_item_id": 13619945930814,
+        "inventory_quantity": 0,
+        "old_inventory_quantity": 0,
+        "requires_shipping": true,
+        "admin_graphql_api_id": "gid://shopify/ProductVariant/13515511234622"
+    }
+}

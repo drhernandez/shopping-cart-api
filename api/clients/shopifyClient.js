@@ -4,7 +4,8 @@ const { ApiError, InternalError, BadRequestError, NotFoundError } = require('../
 
 class ShopifyClient {
   constructor() {
-    this.client = new BaseClient('https://7d2c8bd2c922f1be3bc7806e3f89a68a:af3acc3b4f168d2740bd7c1dc3ea1b70@thirdlove-uat2.myshopify.com/admin');
+    // this.client = new BaseClient('https://7d2c8bd2c922f1be3bc7806e3f89a68a:af3acc3b4f168d2740bd7c1dc3ea1b70@thirdlove-uat2.myshopify.com/admin');
+    this.client = new BaseClient('http://localhost:9999');
   }
 
   async getVariantById(variantId) {
@@ -41,11 +42,6 @@ class ShopifyClient {
       throw response;
     }
     return response.data.order;
-    // return {
-    //   id: Math.floor(Math.random() * (1000000000 - 1) + 1),
-    //   financial_status: 'paid',
-    //   total_price: '68.00'
-    // }
   }
 }
 

@@ -41,3 +41,5 @@ async function initializeModels() {
   await db.Cart.sync();
   await db.CartItem.sync();
 }
+
+module.exports = app;
