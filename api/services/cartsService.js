@@ -45,12 +45,10 @@ class CartsService {
       throw new NotFoundError('Could not create cart', ['buyer not found']);
     }
 
-    if (body.cart_items) {
-      [err] = await to(this.getAndValidateVariants(body.cart_items));
-      if (err != null) {
-        logger.error(`[message: Error trying to get variants] [error: ${JSON.stringify(err)}]`);
-        throw new ApiError(err.status, 'Could not create cart', [err.message]);
-      }
+    [err] = await to(this.getAndValidateVariants(body.cart_items));
+    if (err != null) {
+      logger.error(`[message: Error trying to get variants] [error: ${JSON.stringify(err)}]`);
+      throw new ApiError(err.status, 'Could not create cart', [err.message]);
     }
     
     //save cart on db
