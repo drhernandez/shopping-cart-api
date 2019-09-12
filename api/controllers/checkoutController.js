@@ -7,7 +7,7 @@ const { CheckoutService } = require('../services');
 
 class CheckoutController {
 
-  async checkout(req, res) {
+  static async checkout(req, res) {
 
     let causes = [];
     let response = {};

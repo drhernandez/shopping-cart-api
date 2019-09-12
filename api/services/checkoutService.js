@@ -8,6 +8,12 @@ const { CART_STATUS } = require('../constants');
 
 class CheckoutService {
 
+  /**
+   * 
+   * Process a cart, checking inventory for all items and creating an order in shopify api
+   * 
+   * @param {Object} body 
+   */
   static async createOrder(body) {
     
     //get cart

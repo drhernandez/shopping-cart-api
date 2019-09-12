@@ -6,6 +6,13 @@ const { BadRequestError, InternalError } = require('../errors');
 
 class UsersService {
 
+  /**
+   * 
+   * Get a user by email
+   * 
+   * @param {string} email 
+   * @returns an user || null
+   */
   static async getUser(email) {
      
     const [err, user] = await to(db.User.findByPk(email));
@@ -17,6 +24,12 @@ class UsersService {
     return user;
   }
 
+  /**
+   * 
+   * Creates an user
+   * 
+   * @param {Object} body 
+   */
   static async createUser(body) {
 
     // hash password
