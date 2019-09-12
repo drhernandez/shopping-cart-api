@@ -1,76 +1,52 @@
-const axios = require('axios');
-const logger = require('../utils/loggerFactory')(__filename);
+const fetch = require('node-fetch');
+const logger = require('../utils/loggerFactory').createLogger(__filename);
+const to = require('await-to-js').default;
+const { InternalError } = require('../errors');
+const mockBaseUrl = 'http://localhost:9999';
 
-export default class BaseClient {
-  constructor() {
-    this.restClient = axios.create({
-      baseURL: 'https://7d2c8bd2c922f1be3bc7806e3f89a68a:af3acc3b4f168d2740bd7c1dc3ea1b70@thirdlove-uat2.myshopify.com/admin',
-      timeout: 1000
-    });
+const defaultOptions = {
+  method: 'GET',
+  headers: {},        // request headers. format is the identical to that accepted by the Headers constructor (see below)
+  body: null,         // request body. can be null, a string, a Buffer, a Blob, or a Node.js Readable stream
+  timeout: 500      // req/res timeout in ms, it resets on redirect. 0 to disable (OS limit applies). Signal is recommended instead.
+};
+
+class BaseClient {
+  constructor(options) {
+    this.options = { ...defaultOptions, ...options};
   }
 
-  async get(url, headers) {
-    return await _execute(this.restClient, 'get', url, headers);
+  async get(baseUrl, resource, headers) {
+    return await _execute(this.options, 'get', baseUrl, resource, headers);
   }
 
-  async post(url, headers, body) {
-    return await _execute(this.restClient, 'post', url, headers, body);
+  async post(baseUrl, resource, headers, body) {
+    return await _execute(this.options, 'post', baseUrl, resource, headers, body);
   }
 
-  async put(url, headers, body) {
-    return await _execute(this.restClient, 'put', url, headers, body);
+  async put(baseUrl, resource, headers, body) {
+    return await _execute(this.options, 'put', baseUrl, resource, headers, body);
   }
 
-  async delete(url, headers) {
-    return await _execute(this.restClient, 'delete', url, headers);
+  async delete(baseUrl, resource, headers) {
+    return await _execute(this.options, 'delete', baseUrl, resource, headers);
   }
 }
 
-async function _execute(restClient, method, url, headers = {}, body) {
-  try {
-    return await restClient.request({
-      method: method,
-      url: url,
-      headers: headers,
-      data: body
-    });
-  } catch (error) {
-    return _parseErrorResponse(error);
+async function _execute(options, method, baseUrl, resource, headers = {}, body) {
+  const url = isTestEnv() ? mockBaseUrl.concat(resource) : baseUrl.concat(resource);
+  logger.info(`[message: Executing request...] [method: ${method}] [url: ${url}] [headers: ${JSON.stringify(headers)}] [body: ${JSON.stringify(body)}]`);
+  const [err, response] = await to(fetch(url, { ...options, ...{ method: method, headers: headers, body: JSON.stringify(body) } }));
+  if (err) {
+    logger.error(`[message: Unexpected error occurred executing request] [error: ${err}]`);
+    throw new InternalError(err.message);
   }
+
+  return response;
 }
 
-function _parseErrorResponse(error) {
-  if (error.response) {
-    const request = {
-      'url': error.config.url,
-      'method': error.config.method
-    };
-    const response = {
-      'status': error.response.status,
-      'data': error.response.data
-    };
-    logger.error(`[MESSAGE: Invalid response executing request] [REQUEST: ${JSON.stringify(request)}] [RESPONSE: ${JSON.stringify(response)}]`);
-    const data = JSON.parse(error.response.data);
-    return new ErrorResponse(data.status = 500, data.message);
-  }
-  else if (error.request) {
-    const request = {
-      'url': error.config.url,
-      'method': error.config.method
-    };
-    logger.error(`[MESSAGE: Error executing request] [REQUEST: ${JSON.stringify(request)}] [ERROR: ${error.message}]`);
-    return new ErrorResponse(500, error.message);
-  }
-  else {
-    logger.error(`[MESSAGE: Unexpected error] [ERROR: ${error.message}]`);
-    return new ErrorResponse(500, error.message);
-  }
-}
+module.exports = BaseClient;
 
-class ErrorResponse {
-  constructor(status, message) {
-    this.status = status;
-    this.message = message;
-  }
+function isTestEnv() {
+  return process.env.NODE_ENV === 'test';
 }
-

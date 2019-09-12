@@ -1,0 +1,217 @@
+HTTP/1.1 201 CREATED
+
+{
+    "order": {
+        "id": 1213164814398,
+        "email": "test@test.com",
+        "closed_at": null,
+        "created_at": "2019-09-11T12:16:23-07:00",
+        "updated_at": "2019-09-11T12:16:26-07:00",
+        "number": 67,
+        "note": null,
+        "token": "6a2d63d70de8a2e59c0b6c9d7d5dcf3c",
+        "gateway": "",
+        "test": false,
+        "total_price": "680.00",
+        "subtotal_price": "680.00",
+        "total_weight": 0,
+        "total_tax": "0.00",
+        "taxes_included": false,
+        "currency": "USD",
+        "financial_status": "paid",
+        "confirmed": true,
+        "total_discounts": "0.00",
+        "total_line_items_price": "680.00",
+        "cart_token": null,
+        "buyer_accepts_marketing": false,
+        "name": "#1067",
+        "referring_site": null,
+        "landing_site": null,
+        "cancelled_at": null,
+        "cancel_reason": null,
+        "total_price_usd": "680.00",
+        "checkout_token": null,
+        "reference": null,
+        "user_id": null,
+        "location_id": null,
+        "source_identifier": null,
+        "source_url": null,
+        "processed_at": "2019-09-11T12:16:23-07:00",
+        "device_id": null,
+        "phone": null,
+        "customer_locale": null,
+        "app_id": 2555625,
+        "browser_ip": null,
+        "landing_site_ref": null,
+        "order_number": 1067,
+        "discount_applications": [],
+        "discount_codes": [],
+        "note_attributes": [],
+        "payment_gateway_names": [],
+        "processing_method": "",
+        "checkout_id": null,
+        "source_name": "2555625",
+        "fulfillment_status": null,
+        "tax_lines": [],
+        "tags": "",
+        "contact_email": "test@test.com",
+        "order_status_url": "https://thirdlove-uat2.myshopify.com/342261822/orders/6a2d63d70de8a2e59c0b6c9d7d5dcf3c/authenticate?key=7b118f3e6d2c4a965659c6d293814f17",
+        "presentment_currency": "USD",
+        "total_line_items_price_set": {
+            "shop_money": {
+                "amount": "680.00",
+                "currency_code": "USD"
+            },
+            "presentment_money": {
+                "amount": "680.00",
+                "currency_code": "USD"
+            }
+        },
+        "total_discounts_set": {
+            "shop_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            },
+            "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            }
+        },
+        "total_shipping_price_set": {
+            "shop_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            },
+            "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            }
+        },
+        "subtotal_price_set": {
+            "shop_money": {
+                "amount": "680.00",
+                "currency_code": "USD"
+            },
+            "presentment_money": {
+                "amount": "680.00",
+                "currency_code": "USD"
+            }
+        },
+        "total_price_set": {
+            "shop_money": {
+                "amount": "680.00",
+                "currency_code": "USD"
+            },
+            "presentment_money": {
+                "amount": "680.00",
+                "currency_code": "USD"
+            }
+        },
+        "total_tax_set": {
+            "shop_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            },
+            "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            }
+        },
+        "total_tip_received": "0.0",
+        "admin_graphql_api_id": "gid://shopify/Order/1213164814398",
+        "line_items": [
+            {
+                "id": 2645470511166,
+                "variant_id": 6839688953918,
+                "title": "24/7™ Classic T-Shirt Bra",
+                "quantity": 10,
+                "sku": "10003352702",
+                "variant_title": "naked-3 / 30C",
+                "vendor": "ThirdLove",
+                "fulfillment_service": "manual",
+                "product_id": 512458293310,
+                "requires_shipping": true,
+                "taxable": true,
+                "gift_card": false,
+                "name": "24/7™ Classic T-Shirt Bra - naked-3 / 30C",
+                "variant_inventory_management": "shopify",
+                "properties": [],
+                "product_exists": true,
+                "fulfillable_quantity": 10,
+                "grams": 0,
+                "price": "68.00",
+                "total_discount": "0.00",
+                "fulfillment_status": null,
+                "price_set": {
+                    "shop_money": {
+                        "amount": "68.00",
+                        "currency_code": "USD"
+                    },
+                    "presentment_money": {
+                        "amount": "68.00",
+                        "currency_code": "USD"
+                    }
+                },
+                "total_discount_set": {
+                    "shop_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    },
+                    "presentment_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    }
+                },
+                "discount_allocations": [],
+                "admin_graphql_api_id": "gid://shopify/LineItem/2645470511166",
+                "tax_lines": []
+            }
+        ],
+        "shipping_lines": [],
+        "fulfillments": [],
+        "refunds": [],
+        "customer": {
+            "id": 382064689214,
+            "email": "test@test.com",
+            "accepts_marketing": false,
+            "created_at": "2018-02-20T14:57:33-08:00",
+            "updated_at": "2019-09-11T12:16:24-07:00",
+            "first_name": "Test",
+            "last_name": null,
+            "orders_count": 1,
+            "state": "disabled",
+            "total_spent": "680.00",
+            "last_order_id": 1213164814398,
+            "note": null,
+            "verified_email": true,
+            "multipass_identifier": null,
+            "tax_exempt": false,
+            "phone": null,
+            "tags": "",
+            "last_order_name": "#1067",
+            "currency": "USD",
+            "accepts_marketing_updated_at": "2019-01-04T21:16:25-08:00",
+            "marketing_opt_in_level": null,
+            "admin_graphql_api_id": "gid://shopify/Customer/382064689214",
+            "default_address": {
+                "id": 442825834558,
+                "customer_id": 382064689214,
+                "first_name": "Test",
+                "last_name": null,
+                "company": null,
+                "address1": null,
+                "address2": null,
+                "city": null,
+                "province": null,
+                "country": null,
+                "zip": null,
+                "phone": null,
+                "name": "Test",
+                "province_code": null,
+                "country_code": null,
+                "country_name": null,
+                "default": true
+            }
+        }
+    }
+}

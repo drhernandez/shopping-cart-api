@@ -1,26 +1,22 @@
 const expressRouter = require('express');
-const { createLogger, getRequestLoggerMiddleware} = require('../utils/loggerFactory');
+const { createLogger } = require('../utils/loggerFactory');
+const { getRequestLoggerMiddleware } = require('../middlewares');
 const logger = createLogger(__filename);
-const CartsController = require('../controllers/cartsController')
+const { CartsController } = require('../controllers')
 
 class CartsRouter {
   constructor() {
-    this.controller = new CartsController();
     this.router = expressRouter.Router();
     this.addRoutes();
   }
 
-  getRouter() {
-    return this.router;
-  }
-
   addRoutes() {
-    this.router.get('/:cart_id', getRequestLoggerMiddleware(logger), this.controller.getCartById);
-    this.router.put('/:cart_id', getRequestLoggerMiddleware(logger), this.controller.updateCart);
-    this.router.delete('/:cart_id', getRequestLoggerMiddleware(logger), this.controller.deleteCart);
-    this.router.post('/', getRequestLoggerMiddleware(logger), this.controller.createCart);
+    this.router.get('/:cart_id', getRequestLoggerMiddleware(logger), CartsController.getCartById);
+    this.router.put('/:cart_id', getRequestLoggerMiddleware(logger), CartsController.updateCart);
+    this.router.delete('/:cart_id', getRequestLoggerMiddleware(logger), CartsController.deleteCart);
+    this.router.post('/', getRequestLoggerMiddleware(logger), CartsController.createCart);
   }
 }
 
-const router = new CartsRouter();
-module.exports = router.getRouter();
+const cartsRouter = new CartsRouter();
+module.exports = cartsRouter.router;

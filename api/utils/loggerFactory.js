@@ -17,15 +17,6 @@ function createLogger(name) {
   });
 }
 
-function getRequestLoggerMiddleware(logger) {
-  return (req, res, next) => {
-    // logger.log({ 'ip': req.ip, 'method': req.method, 'url': req.originalUrl, level: 'info', 'body': req.body });
-    logger.info(`[method: ${req.method}] [url: ${req.originalUrl}] [params: ${JSON.stringify(req.params)}] [body: ${JSON.stringify(req.body)}]`);
-    next();
-  };
-}
-
 module.exports = {
-  createLogger,
-  getRequestLoggerMiddleware
+  createLogger
 }
