@@ -68,7 +68,7 @@ describe('Checkout', () => {
           .send()
           .end((err, res) => {
             res.should.have.status(400);
-            res.body.should.have.property('causes').eql(['missing cart_id'])
+            res.body.should.have.property('causes').eql(['missing cart_id', 'cart_id must be a number'])
             done();
           })
       }).catch((err) => {
@@ -147,8 +147,8 @@ describe('Checkout', () => {
           })
           .end((err, res) => {
             res.should.have.status(201);
-            res.body.should.have.property('shopifyOrderId').eql('1213164814398');
-            res.body.should.have.property('financialStatus').eql('paid');
+            res.body.should.have.property('shopify_order_id').eql('1213164814398');
+            res.body.should.have.property('financial_status').eql('paid');
             done();
           })
       }).catch((err) => {

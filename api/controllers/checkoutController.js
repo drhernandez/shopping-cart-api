@@ -1,5 +1,6 @@
 const logger = require('../utils/loggerFactory').createLogger(__filename);
 const to = require('await-to-js').default;
+var snakeCaseKeys = require('snakecase-keys')
 const { Response } = require('../models');
 const { ApiError, InternalError, BadRequestError } = require('../errors');
 const { CheckoutService } = require('../services');
@@ -13,6 +14,9 @@ class CheckoutController {
 
     if (req.body.cart_id === undefined) {
       causes.push('missing cart_id');
+    }
+    if (isNaN(req.body.cart_id)) {
+      causes.push('cart_id must be a number');
     }
 
     if (causes.length > 0) {
@@ -32,7 +36,7 @@ class CheckoutController {
       }
     }
 
-    res.status(response.status).json(response.body);
+    res.status(response.status).json(snakeCaseKeys(response.body));
   }
 }
 
