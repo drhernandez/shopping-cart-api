@@ -51,8 +51,8 @@ class CheckoutService {
     results.forEach(result => inventoryMap.set(result.id.toString(), result.inventory_quantity));
     const itemsOutOfInventory = cart.cartItems.filter(cartItem => inventoryMap.get(cartItem.variant_id) < cartItem.quantity);
     if (itemsOutOfInventory.length > 0) {
-      logger.error(`[message: Error creating order] [error: items [${itemsOutOfInventory.map(item => item.variant_id)}] are out of inventory]`);
-      throw new BadRequestError('Could not create order', [`items [${itemsOutOfInventory.map(item => item.variant_id)}] are out of inventory]`]);
+      logger.error(`[message: Error creating order] [error: items [${itemsOutOfInventory.map(item => item.variant_id)}] are out of stock]`);
+      throw new BadRequestError('Could not create order', [`items [${itemsOutOfInventory.map(item => item.variant_id)}] are out of stock]`]);
     }
 
     let order;
