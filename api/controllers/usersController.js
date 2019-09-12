@@ -21,7 +21,9 @@ class UsersController {
     } else if (!user) {
       response = new Response(404, new NotFoundError());
     } else {
-      response = new Response(200, user);
+      const body = user.toJSON();
+      delete body.password;
+      response = new Response(200, body);
     }
 
     res.status(response.status).json(response.body);

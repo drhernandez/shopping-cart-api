@@ -11,17 +11,24 @@ class CartsController {
     const cartId = req.params.cart_id;
     let response = {};
 
-    const [err, cart] = await to(CartsService.getCartById(cartId));
-    if (err && err instanceof ApiError) {
-      logger.error(`[message: Error getting cart] [error: ${JSON.stringify(err)}]`);
-      response = new Response(err.status, err);
-    } else if (err) {
-      logger.error(`[message: Error getting cart] [error: ${err.message}]`);
-      response = new Response(500, new InternalError());
-    } else if (!cart) {
-      response = new Response(404, new NotFoundError());
+    if (isNaN(cartId)) {
+      logger.error(`[message: Error creating a cart] [error: invalid body] [causes: cart id ${cartId} is not a number]`)
+      response = new Response(400, new BadRequestError('invalid body', [`causes: cart id ${cartId } is not a number`]));
     } else {
-      response = new Response(200, cart);
+      const [err, cart] = await to(CartsService.getCartById(cartId));
+      if (err && err instanceof ApiError) {
+        logger.error(`[message: Error getting cart] [error: ${JSON.stringify(err)}]`);
+        response = new Response(err.status, err);
+      } else if (err) {
+        logger.error(`[message: Error getting cart] [error: ${err.message}]`);
+        response = new Response(500, new InternalError());
+      } else if (!cart) {
+        response = new Response(404, new NotFoundError());
+      } else {
+        const body = cart.toJSON();
+        delete body.buyer.password;
+        response = new Response(200, body);
+      }
     }
 
     res.status(response.status).json(response.body);
@@ -38,7 +45,7 @@ class CartsController {
     if (req.body.cart_items === undefined) {
       causes.push('missing cart_items');
     }
-    if (req.body.cart_items && req.body.cart_items.length === 0) {
+    if (!Array.isArray(req.body.cart_items) || req.body.cart_items.length === 0) {
       causes.push('cart_items must be an array and must have at least one item')
     } else if (req.body.cart_items) {
       req.body.cart_items.forEach(item => {
@@ -80,10 +87,13 @@ class CartsController {
     let causes = [];
     let response = {};
 
+    if (isNaN(cartId)) {
+      causes.push(`cart id ${cartId} is not a number`);
+    }
     if (!req.body.cart_items) {
       causes.push('missing cart_items');
     }
-    if (req.body.cart_items && !req.body.cart_items.length) {
+    if (!Array.isArray(req.body.cart_items) || req.body.cart_items.length === 0) {
       causes.push('cart_items must be an array and must have at least one item')
     } else if (req.body.cart_items){
       req.body.cart_items.forEach(item => {
@@ -112,6 +122,7 @@ class CartsController {
         logger.error(`[message: Error updating cart ${cartId}] [error: ${err.message}]`);
         response = new Response(500, new InternalError());
       } else {
+        delete cart.buyer.password;
         response = new Response(200, cart);
       }
     }
@@ -124,15 +135,20 @@ class CartsController {
     const cartId = req.params.cart_id;
     let response = {};
 
-    const [err] = await to(CartsService.deleteCartById(cartId));
-    if (err && err instanceof ApiError) {
-      logger.error(`[message: Error deleting cart] [error: ${JSON.stringify(err)}]`);
-      response = new Response(err.status, err);
-    } else if (err) {
-      logger.error(`[message: Error deleting cart] [error: ${err.message}]`);
-      response = new Response(500, new InternalError());
+    if (isNaN(cartId)) {
+      logger.error(`[message: Error creating a cart] [error: invalid body] [causes: cart id ${cartId} is not a number]`)
+      response = new Response(400, new BadRequestError('invalid body', [`causes: cart id ${cartId} is not a number`]));
     } else {
-      response = new Response(204);
+      const [err] = await to(CartsService.deleteCartById(cartId));
+      if (err && err instanceof ApiError) {
+        logger.error(`[message: Error deleting cart] [error: ${JSON.stringify(err)}]`);
+        response = new Response(err.status, err);
+      } else if (err) {
+        logger.error(`[message: Error deleting cart] [error: ${err.message}]`);
+        response = new Response(500, new InternalError());
+      } else {
+        response = new Response(204);
+      }
     }
 
     res.status(response.status).json(response.body);

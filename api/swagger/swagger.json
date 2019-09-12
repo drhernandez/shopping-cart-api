@@ -88,7 +88,7 @@
         "cart_items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/cart_item"
+            "$ref": "#/definitions/cartItem"
           }
         }
       }
@@ -111,12 +111,13 @@
           "format": "date-time"
         },
         "buyer": {
-          "$ref": "#/definitions/buyer"
+          "type": "object",
+          "$ref": "#/definitions/userResponse"
         },
         "cart_items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/cart_item"
+            "$ref": "#/definitions/cartItemResponse"
           }
         }
       }
@@ -127,16 +128,12 @@
         "cart_items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/cart_item"
+            "$ref": "#/definitions/cartItem"
           }
         }
       }
     },
-    "buyer": {
-      "type": "object",
-      "$ref": "#/definitions/userResponse"
-    },
-    "cart_item": {
+    "cartItem": {
       "type": "object",
       "properties": {
         "variant_id": {
@@ -144,6 +141,28 @@
         },
         "quantity": {
           "type": "integer"
+        }
+      }
+    },
+    "cartItemResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "variant_id": {
+          "type": "integer"
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },

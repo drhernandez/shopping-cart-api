@@ -16,8 +16,8 @@ class CartsService {
    */
   static async getCartById(cartId) {
 
-    // const [err, cart] = await to(db.Cart.findByPk(cartId, { include: [{ all: true }] }));
-    const [err, cart] = await to(db.Cart.findByPk(cartId));
+    const [err, cart] = await to(db.Cart.findByPk(cartId, { include: [ 'buyer', 'cartItems' ] }));
+    // const [err, cart] = await to(db.Cart.findByPk(cartId));
     if (err != null) {
       logger.error(`[message: Error getting cart ${cartId}] [error: ${err}]`)
       throw new InternalError('Could not get cart');
@@ -58,7 +58,6 @@ class CartsService {
       await cart.setBuyer(user, { transaction: tx });
       await Promise.all(body.cart_items.map(cartItem => cart.createCartItem(cartItem, { transaction: tx })));
       await tx.commit();
-      // ver como mejorar el json de respuesta para que tenga el buyer y los cart items
       return cart.toJSON();
       
     } catch (err) {
@@ -109,7 +108,6 @@ class CartsService {
         await Promise.all(body.cart_items.map(cartItem => cart.createCartItem(cartItem, { transaction: tx })));
       }
       await tx.commit();
-      // ver como mejorar el json de respuesta para que tenga el buyer y los cart items
       return cart.toJSON();
 
     } catch (err) {
