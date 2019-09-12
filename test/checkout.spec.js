@@ -127,7 +127,7 @@ describe('Checkout', () => {
           })
           .end((err, res) => {
             res.should.have.status(400);
-            res.body.should.have.property('causes').eql(['items [123456789] are out of inventory]'])
+            res.body.should.have.property('causes').eql(['items [123456789] are out of stock]'])
             done();
           })
       }).catch((err) => {

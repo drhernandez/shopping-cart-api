@@ -1,10 +1,12 @@
 const BaseClient = require('./baseClient');
 const to = require('await-to-js').default;
 const { ApiError } = require('../errors');
+const SHOPIFY_API_KEY = process.env.SHOPIFY_API_KEY;
+const SHOPIFY_API_PASSWORD = process.env.SHOPIFY_API_PASSWORD;
 
 class ShopifyClient {
   constructor() {
-    this.baseUrl = 'https://7d2c8bd2c922f1be3bc7806e3f89a68a:af3acc3b4f168d2740bd7c1dc3ea1b70@thirdlove-uat2.myshopify.com/admin';
+    this.baseUrl = `https://${SHOPIFY_API_KEY}:${SHOPIFY_API_PASSWORD}@thirdlove-uat2.myshopify.com/admin`;
     this.client = new BaseClient({ timeout: 2000 });
   }
 
