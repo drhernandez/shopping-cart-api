@@ -1,7 +1,7 @@
 # shoping-cart-api
 
 Application for shopping carts management. 
-This application allows you to create and manage and process shopping carts. The final result is a order created in thirdlove-uat2.myshopify.com API. For more documentation about shopify api, read the [docs](https://help.shopify.com/en/api/reference).
+This application allows you to create, manage and process shopping carts. The final result is a order created in thirdlove-uat2.myshopify.com API. For more documentation about shopify api, read the [docs](https://help.shopify.com/en/api/reference).
 
 # Tecnology
 
@@ -17,13 +17,13 @@ This application allows you to create and manage and process shopping carts. The
 * pg
 * Winston
 
-All libraries have been selected base on my knowledge, popularity and community size, and reliability.
+All libraries have been selected base on my knowledge, popularity & community size and reliability.
 
 # Configuration
 
-## Batabase
+## Database
 
-Create a PosgreSQL database with name and port of your choise, the access will be configured on the .env file in the next section.
+Create a PosgreSQL database with name and port of your choise, the access will be configured on the environment variables in the next section.
 
 ## Environment variables
 
@@ -46,7 +46,7 @@ To run the project you have to configure the following environment variables:
 
 * TOKEN_SECRET=*JWT token secrets*
 
-Example .env file
+Example **.env** file for run the project locally
 ```
 NODE_ENV=development
 
@@ -76,7 +76,7 @@ To run tests execute the following command:
  npm test
 ```
 
-## Run the project
+## Run
 
 To run the project you have to configure the required environment variables. If you are running locally, create a **.env** file as explained above and run the following commands:
 ```
