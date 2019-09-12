@@ -7,7 +7,7 @@ const { UsersService } = require('../services');
 
 class UsersController {
 
-  async getUser(req, res) {
+  static async getUser(req, res) {
 
     const userEmail = req.params.user_email;
     let response = {};
@@ -30,7 +30,7 @@ class UsersController {
     res.status(response.status).json(snakeCaseKeys(response.body));
   }
 
-  async createUser(req, res) {
+  static async createUser(req, res) {
     
     let causes = [];
     let user = {};

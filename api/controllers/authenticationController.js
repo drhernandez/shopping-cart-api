@@ -6,7 +6,7 @@ const { AuthenticationService } = require('../services');
 
 class AuthenticationController {
 
-  async login(req, res) {
+  static async login(req, res) {
 
     let causes = [];
     let response = {};

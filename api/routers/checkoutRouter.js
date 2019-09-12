@@ -2,7 +2,7 @@ const expressRouter = require('express');
 const { createLogger } = require('../utils/loggerFactory');
 const logger = createLogger(__filename);
 const { validateAuthentication, getRequestLoggerMiddleware } = require('../middlewares');
-const { checkoutController } = require('../controllers')
+const { CheckoutController } = require('../controllers')
 
 class CheckoutRouter {
   constructor() {
@@ -11,7 +11,7 @@ class CheckoutRouter {
   }
 
   addRoutes() {
-    this.router.post('/', getRequestLoggerMiddleware(logger), validateAuthentication(), checkoutController.checkout);
+    this.router.post('/', getRequestLoggerMiddleware(logger), validateAuthentication(), CheckoutController.checkout);
   }
 }
 

@@ -2,7 +2,7 @@ const expressRouter = require('express');
 const { createLogger } = require('../utils/loggerFactory');
 const { getRequestLoggerMiddleware } = require('../middlewares');
 const logger = createLogger(__filename);
-const { authenticationController } = require('../controllers')
+const { AuthenticationController } = require('../controllers')
 
 class AuthenticationRouter {
   constructor() {
@@ -11,7 +11,7 @@ class AuthenticationRouter {
   }
 
   addRoutes() {
-    this.router.post('/login', getRequestLoggerMiddleware(logger, false), authenticationController.login);
+    this.router.post('/login', getRequestLoggerMiddleware(logger, false), AuthenticationController.login);
   }
 }
 

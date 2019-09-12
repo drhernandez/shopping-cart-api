@@ -7,7 +7,7 @@ const { CartsService } = require('../services');
 
 class CartsController {
   
-  async getCartById(req, res) {
+  static async getCartById(req, res) {
     
     const cartId = req.params.cart_id;
     let response = {};
@@ -35,7 +35,7 @@ class CartsController {
     res.status(response.status).json(snakeCaseKeys(response.body));
   }
 
-  async createCart(req, res) {
+  static async createCart(req, res) {
 
     let causes = [];
     let response = {};
@@ -82,7 +82,7 @@ class CartsController {
     res.status(response.status).json(snakeCaseKeys(response.body));
   }
 
-  async updateCart(req, res) {
+  static async updateCart(req, res) {
     
     const cartId = req.params.cart_id;
     let causes = [];
@@ -131,7 +131,7 @@ class CartsController {
     res.status(response.status).json(snakeCaseKeys(response.body));
   }
 
-  async deleteCart(req, res) {
+  static async deleteCart(req, res) {
     
     const cartId = req.params.cart_id;
     let response = {};
