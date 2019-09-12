@@ -17,7 +17,6 @@ class CartsService {
   static async getCartById(cartId) {
 
     const [err, cart] = await to(db.Cart.findByPk(cartId, { include: [ 'buyer', 'cartItems' ] }));
-    // const [err, cart] = await to(db.Cart.findByPk(cartId));
     if (err != null) {
       logger.error(`[message: Error getting cart ${cartId}] [error: ${err}]`)
       throw new InternalError('Could not get cart');

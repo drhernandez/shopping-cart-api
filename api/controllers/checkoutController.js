@@ -14,6 +14,9 @@ class CheckoutController {
     if (req.body.cart_id === undefined) {
       causes.push('missing cart_id');
     }
+    if (isNaN(req.body.cart_id)) {
+      causes.push('cart_id must be a number');
+    }
 
     if (causes.length > 0) {
       logger.error(`[message: Error creating order] [error: invalid body] [causes: ${JSON.stringify(causes)}]`)

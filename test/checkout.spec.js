@@ -68,7 +68,7 @@ describe('Checkout', () => {
           .send()
           .end((err, res) => {
             res.should.have.status(400);
-            res.body.should.have.property('causes').eql(['missing cart_id'])
+            res.body.should.have.property('causes').eql(['missing cart_id', 'cart_id must be a number'])
             done();
           })
       }).catch((err) => {

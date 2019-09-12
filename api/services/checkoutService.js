@@ -28,6 +28,12 @@ class CheckoutService {
       throw new UnauthorizedError('Unauthorized', ['cart does not belong to access_token user']);
     }
 
+    //validate cart status
+    if(cart.status === CART_STATUS.CLOSED) {
+      logger.error(`[message: Error creating order] [error: cart ${cartId} has already been processed]`);
+      throw new BadRequestError('Error creating order', [`cart ${cartId} has already been processed`]);
+    }
+
     //validate inventory
     let results;
     [err, results] = await to(CartsService.getAndValidateVariants(cart.cartItems));
@@ -46,7 +52,7 @@ class CheckoutService {
     let order;
     [err, order] = await to(shopifyClient.createOrder(cart.buyer.email, cart.cartItems));
     if (err) {
-      logger.error(`[message: Error creating order] [error: ${err}]`);
+      logger.error(`[message: Error creating order] [error: ${JSON.stringify(err)}]`);
       throw new InternalError('Could not create order');
     }
 
