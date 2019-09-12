@@ -35,12 +35,12 @@ class CartsController {
     if (!req.body.buyer_email) {
       causes.push('missing buyer email');
     }
-    if (!req.body.cart_items) {
+    if (req.body.cart_items === undefined) {
       causes.push('missing cart_items');
     }
-    if (!req.body.cart_items.length) {
+    if (req.body.cart_items && req.body.cart_items.length === 0) {
       causes.push('cart_items must be an array and must have at least one item')
-    } else {
+    } else if (req.body.cart_items) {
       req.body.cart_items.forEach(item => {
         if (item.variant_id == undefined) {
           causes.push(`missing variant_id on cart_item: ${JSON.stringify(item)}`);
@@ -80,6 +80,9 @@ class CartsController {
     let causes = [];
     let response = {};
 
+    if (!req.body.cart_items) {
+      causes.push('missing cart_items');
+    }
     if (req.body.cart_items && !req.body.cart_items.length) {
       causes.push('cart_items must be an array and must have at least one item')
     } else if (req.body.cart_items){

@@ -2,7 +2,7 @@ const logger = require('../utils/loggerFactory').createLogger(__filename);
 const to = require('await-to-js').default;
 const db = require('../db/models');
 const SecurityService = require('./securityService');
-const { ApiError, InternalError } = require('../errors');
+const { BadRequestError, InternalError } = require('../errors');
 
 class UsersService {
 
@@ -28,7 +28,7 @@ class UsersService {
     // creo el usuario
     const [err, user] = await to(db.User.create(body));
     if (err && err.name === 'SequelizeUniqueConstraintError') {
-      throw new ApiError(400, 'Invalid body', ['email already exist']);
+      throw new BadRequestError('Invalid body', ['email already exist']);
     } else if(err) {
       logger.error(`[message: Error trying to create user] [error: ${JSON.stringify(err)}]`);
       throw new InternalError('Could not create user');

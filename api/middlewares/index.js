@@ -37,7 +37,7 @@ function validateAuthentication() {
       userInfo = SecurityService.verifyToken(token);
       req.body.user = userInfo;
     } catch (err) {
-      res.status(err.status).json(err);
+      res.status(401).json(new UnauthorizedError());
       return;
     }
 

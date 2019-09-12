@@ -11,7 +11,7 @@ class CheckoutController {
     let causes = [];
     let response = {};
 
-    if (!req.body.cart_id == null) {
+    if (req.body.cart_id === undefined) {
       causes.push('missing cart_id');
     }
 

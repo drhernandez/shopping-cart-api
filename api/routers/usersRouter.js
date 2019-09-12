@@ -11,6 +11,7 @@ class UsersRouter {
   }
 
   addRoutes() {
+    this.router.get('/:user_email', getRequestLoggerMiddleware(logger), usersController.getUser);
     this.router.post('/', getRequestLoggerMiddleware(logger), usersController.createUser);
   }
 }
