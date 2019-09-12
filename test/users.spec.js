@@ -35,7 +35,7 @@ describe('Users', () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.have.property('name').eql('test');
-            res.body.should.have.property('lastName').eql('test');
+            res.body.should.have.property('last_name').eql('test');
             res.body.should.have.property('email').eql('test@test.com');
             done();
           })
@@ -59,6 +59,26 @@ describe('Users', () => {
           res.body.should.have.property('message').eql('invalid body');
           done();
         })
+    });
+
+    it('should fail with bad request if user email is invalid', (done) => {
+      utils.createTestUser().then(() => {
+        chai.request(app)
+          .post('/users')
+          .send({
+            name: 'test2',
+            last_name: 'test2',
+            email: 'test',
+            password: 'test2'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.have.property('causes').eql(['invalid user email']);
+            done();
+          })
+      }).catch((err) => {
+        console.log(err);
+      })
     });
 
     it('should fail with bad request if user email already exist', (done) => {

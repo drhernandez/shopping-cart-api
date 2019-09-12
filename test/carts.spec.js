@@ -36,7 +36,7 @@ describe('Carts', () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.have.property('status').eql('created');
-            res.body.should.have.property('buyerEmail').eql('test@test.com');
+            res.body.should.have.property('buyer_email').eql('test@test.com');
             done();
           })
       }).catch((err) => {

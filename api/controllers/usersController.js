@@ -1,5 +1,6 @@
 const to = require('await-to-js').default;
 const logger = require('../utils/loggerFactory').createLogger(__filename);
+var snakeCaseKeys = require('snakecase-keys')
 const { Response } = require('../models');
 const { ApiError, InternalError, NotFoundError } = require('../errors');
 const { UsersService } = require('../services');
@@ -26,7 +27,7 @@ class UsersController {
       response = new Response(200, body);
     }
 
-    res.status(response.status).json(response.body);
+    res.status(response.status).json(snakeCaseKeys(response.body));
   }
 
   async createUser(req, res) {
@@ -43,6 +44,9 @@ class UsersController {
     }
     if (!req.body.email) {
       causes.push('missing user email');
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(req.body.email)) {
+      causes.push('invalid user email');
     }
     if (!req.body.password) {
       causes.push('missing user password');
@@ -70,7 +74,7 @@ class UsersController {
       }
     }
 
-    res.status(response.status).json(response.body);
+    res.status(response.status).json(snakeCaseKeys(response.body));
   }
 }
 

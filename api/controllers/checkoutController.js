@@ -1,5 +1,6 @@
 const logger = require('../utils/loggerFactory').createLogger(__filename);
 const to = require('await-to-js').default;
+var snakeCaseKeys = require('snakecase-keys')
 const { Response } = require('../models');
 const { ApiError, InternalError, BadRequestError } = require('../errors');
 const { CheckoutService } = require('../services');
@@ -35,7 +36,7 @@ class CheckoutController {
       }
     }
 
-    res.status(response.status).json(response.body);
+    res.status(response.status).json(snakeCaseKeys(response.body));
   }
 }
 

@@ -1,5 +1,6 @@
 const logger = require('../utils/loggerFactory').createLogger(__filename);
 const to = require('await-to-js').default;
+var snakeCaseKeys = require('snakecase-keys');
 const { Response } = require('../models');
 const { ApiError, InternalError, BadRequestError, NotFoundError } = require('../errors');
 const { CartsService } = require('../services');
@@ -31,7 +32,7 @@ class CartsController {
       }
     }
 
-    res.status(response.status).json(response.body);
+    res.status(response.status).json(snakeCaseKeys(response.body));
   }
 
   async createCart(req, res) {
@@ -78,7 +79,7 @@ class CartsController {
       }
     }
 
-    res.status(response.status).json(response.body);
+    res.status(response.status).json(snakeCaseKeys(response.body));
   }
 
   async updateCart(req, res) {
@@ -127,7 +128,7 @@ class CartsController {
       }
     }
 
-    res.status(response.status).json(response.body);
+    res.status(response.status).json(snakeCaseKeys(response.body));
   }
 
   async deleteCart(req, res) {
@@ -151,7 +152,7 @@ class CartsController {
       }
     }
 
-    res.status(response.status).json(response.body);
+    res.status(response.status).json(response.body ? snakeCaseKeys(response.body) : response.body);
   }
 }
 
