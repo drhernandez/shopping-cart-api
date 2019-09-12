@@ -95,7 +95,7 @@ class CartsService {
       [err] = await to(this.getAndValidateVariants(body.cart_items));
       if (err != null) {
         logger.error(`[message: Error updating cart ${cartId}] [error: ${err}]`)
-        throw new ApiError(err.status, 'Could not update cart', [err.message].concat(err.causes));
+        throw new ApiError(err.status, 'Could not update cart', [err.message]);
       }
     }  
 
@@ -167,7 +167,7 @@ class CartsService {
     const [err, results] = await to(Promise.all(getVariantPromises));
     if (err != null) {
       logger.error(`[message: Error trying to get variants] [error: ${JSON.stringify(err)}]`);
-      throw new ApiError(err.status, 'Could not get variants', [err.message]);
+      throw err;
     }
 
     return results;

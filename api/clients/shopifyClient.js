@@ -4,13 +4,12 @@ const { ApiError } = require('../errors');
 
 class ShopifyClient {
   constructor() {
-    // this.baseUrl = 'https://7d2c8bd2c922f1be3bc7806e3f89a68a:af3acc3b4f168d2740bd7c1dc3ea1b70@thirdlove-uat2.myshopify.com/admin';
-    this.baseUrl = 'http://localhost:9999';
+    this.baseUrl = 'https://7d2c8bd2c922f1be3bc7806e3f89a68a:af3acc3b4f168d2740bd7c1dc3ea1b70@thirdlove-uat2.myshopify.com/admin';
     this.client = new BaseClient({ timeout: 1000 });
   }
 
   async getVariantById(variantId) {
-    const [err, response] = await to(this.client.get(`${this.baseUrl}/variants/${variantId}.json`));
+    const [err, response] = await to(this.client.get(this.baseUrl, `/variants/${variantId}.json`));
     if (err) {
       throw err;
     } else if (!response.ok) {
@@ -38,7 +37,7 @@ class ShopifyClient {
       }
     }
 
-    const [err, response] = await to(this.client.post(`${this.baseUrl}/orders.json`, {}, body));
+    const [err, response] = await to(this.client.post(this.baseUrl, '/orders.json', {}, body));
     if (err) {
       throw err;
     } else if (!response.ok) {

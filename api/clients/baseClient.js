@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const logger = require('../utils/loggerFactory').createLogger(__filename);
 const to = require('await-to-js').default;
 const { InternalError } = require('../errors');
+const mockBaseUrl = 'http://localhost:9999';
 
 const defaultOptions = {
   method: 'GET',
@@ -20,24 +21,25 @@ class BaseClient {
     this.options = { ...defaultOptions, ...options};
   }
 
-  async get(url, headers) {
-    return await _execute(this.options, 'get', url, headers);
+  async get(baseUrl, resource, headers) {
+    return await _execute(this.options, 'get', baseUrl, resource, headers);
   }
 
-  async post(url, headers, body) {
-    return await _execute(this.options, 'post', url, headers, body);
+  async post(baseUrl, resource, headers, body) {
+    return await _execute(this.options, 'post', baseUrl, resource, headers, body);
   }
 
-  async put(url, headers, body) {
-    return await _execute(this.options, 'put', url, headers, body);
+  async put(baseUrl, resource, headers, body) {
+    return await _execute(this.options, 'put', baseUrl, resource, headers, body);
   }
 
-  async delete(url, headers) {
-    return await _execute(this.options, 'delete', url, headers);
+  async delete(baseUrl, resource, headers) {
+    return await _execute(this.options, 'delete', baseUrl, resource, headers);
   }
 }
 
-async function _execute(options, method, url, headers = {}, body) {
+async function _execute(options, method, baseUrl, resource, headers = {}, body) {
+  const url = isTestEnv() ? mockBaseUrl.concat(resource) : baseUrl.concat(resource);
   logger.info(`[message: Executing request...] [method: ${method}] [url: ${url}] [headers: ${JSON.stringify(headers)}] [body: ${JSON.stringify(body)}]`);
   const [err, response] = await to(fetch(url, { ...options, ...{ method: method, headers: headers, body: JSON.stringify(body) } }));
   if (err) {
@@ -50,3 +52,6 @@ async function _execute(options, method, url, headers = {}, body) {
 
 module.exports = BaseClient;
 
+function isTestEnv() {
+  return process.env.NODE_ENV === 'test';
+}
